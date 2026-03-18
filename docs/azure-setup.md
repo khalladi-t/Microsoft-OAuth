@@ -35,7 +35,7 @@ App → Authentication:
 ## 5) Match Runtime Env
 On your server or in `.env`:
 
-
+```bash
     MS_TENANT=organizations       
     MS_CLIENT_ID=<GUID>
     MS_CLIENT_SECRET=<SECRET_VALUE>
