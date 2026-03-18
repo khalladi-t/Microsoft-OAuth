@@ -16,7 +16,7 @@ Place TLS files on the instance:
     /etc/ssl/<your_app_name>/privkey.pem
 
 ## 3) System Environment
-Copy `.env.sample` → `.env`, fill values, then:
+Copy `.env.sample` > `.env`, fill values, then:
 ```bash
 set -a; source .env; set +a
 
