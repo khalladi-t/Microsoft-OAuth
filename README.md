@@ -34,13 +34,13 @@ Controller callback expected HTTPoison response types and a user‑info call we 
     Check OAuth Helper — lib/<your_app_name>/utils/azure_auth.ex
      
 ## Step 2 
-    Check  Runtime Config — config/runtime.exs
+    Check Runtime Config — config/runtime.exs
       
 ## Step 3 
     Check Router — lib/<your_app_name>/router.ex
       
 ## Step 4
-    (Optional) Check Controller — lib/<your_app_name>/controllers/azure_auth_controller.ex
+    Check Controller — lib/<your_app_name>/controllers/azure_auth_controller.ex
 
 
 ## Links
