@@ -23,7 +23,11 @@ HTTP 500 on callback due to controller expecting HTTPoison. Response and calling
 
 ## Scenario
 
-OAuth URLs were built from hard‑coded module attributes in azure_auth.ex. Redirect URI in the application did not match the Azure App Registration redirect list. Controller callback expected HTTPoison response types and a user‑info call we had not implemented (stub), causing 500s.
+OAuth URLs were built from hard‑coded module attributes in azure_auth.ex. 
+
+Redirect URI in the application did not match the Azure App Registration redirect list. 
+
+Controller callback expected HTTPoison response types and a user‑info call we had not implemented (stub), causing 500s.
 
 
 ## Steps 1
