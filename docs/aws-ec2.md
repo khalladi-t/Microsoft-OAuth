@@ -3,11 +3,11 @@
 This document outlines a simple EC2 deployment for `<your_app>` with TLS terminated in Phoenix.
 
 ## 1) Instance & Network
-- Launch an EC2 instance (Ubuntu recommended).
+- Launch an EC2 instance.
 - Security Group inbound rules:
-  - TCP 4001 (or **443** if you prefer standard HTTPS)
-  - TCP 22 (SSH) from your admin IP
-- (Optional) Allocate Elastic IP or use a domain + DNS A record.
+  - TCP 4001 or 443
+  - TCP 22 from your admin IP
+  - Allocate Elastic IP or use a domain + DNS A record.
 
 ## 2) TLS Certificates
 Place TLS files on the instance: 
