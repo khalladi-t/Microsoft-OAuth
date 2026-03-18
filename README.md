@@ -43,3 +43,5 @@ OAuth URLs were built from hard‑coded module attributes in azure_auth.ex. Redi
 https://opensource.microsoft.com/codeofconduct/
 
 https://portal.azure.com/
+
+https://github.com/khalladi-t/microsoft-oauth/actions/workflows/elixir.yml/badge.svg
