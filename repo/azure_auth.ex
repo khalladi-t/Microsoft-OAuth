@@ -34,7 +34,6 @@ defmodule Utils.AzureAuth do
 
   def token_url, do: "https://login.microsoftonline.com/#{cfg().tenant_id}/oauth2/v2.0/token"
 
-  # Confidential client token exchange via :httpc
   def get_token(code) do
     c = cfg()
 
@@ -55,7 +54,6 @@ defmodule Utils.AzureAuth do
     )
   end
 
-  # Stubs to be implemented later
   def get_user_info_by_token(_token), do: {:error, :not_implemented}
   def set_token_record_for_person(_person, _tokens), do: :ok
 end
