@@ -1,0 +1,113 @@
+name: Elixir CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs:
+  build:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+
+  
+    strategy:
+      matrix:
+        elixir: ['1.15.x']    
+        otp:    ['26.x']      
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup BEAM (Elixir + Erlang/OTP)
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version:     ${{ matrix.otp }}
+
+      # Cache deps
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: deps
+          key:  ${{ runner.os }}-mix-deps-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-deps-
+
+      - name: Cache _build
+        uses: actions/cache@v4
+        with:
+          path: _build
+          key:  ${{ runner.os }}-mix-build-${{ matrix.elixir }}-${{ matrix.otp }}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-build-
+
+      - name: Install deps
+        run: mix deps.get
+
+      - name: Compile (warnings as errors)
+        run: MIX_ENV=test mix compile --warnings-as-errors
+
+      # Uncomment when you add tests
+      # - name: Run tests
+      #   run: mix test --color
+
+      - name: Format check
+        run: mix format --check-formatted
+
+  
+  release:
+    name: Build Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'  # only on main pushes
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup BEAM
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: '1.15.x'
+          otp-version: '26.x'
+
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          path: deps
+          key:  ${{ runner.os }}-mix-deps-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-deps-
+
+      - name: Install deps
+        run: mix deps.get --only prod
+
+      # If your app lives under /app, cd into it (uncomment the next line and adjust all commands)
+      # - run: cd app
+
+      # Provide the runtime env your release expects.
+      - name: Export runtime env
+        run: |
+          echo "MS_TENANT=${{ secrets.MS_TENANT }}" >> $GITHUB_ENV
+          echo "MS_CLIENT_ID=${{ secrets.MS_CLIENT_ID }}" >> $GITHUB_ENV
+          echo "MS_CLIENT_SECRET=${{ secrets.MS_CLIENT_SECRET }}" >> $GITHUB_ENV
+          echo "MS_REDIRECT_URI=${{ secrets.MS_REDIRECT_URI }}" >> $GITHUB_ENV
+          echo "MS_SCOPE=${{ secrets.MS_SCOPE }}" >> $GITHUB_ENV
+          echo "SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}" >> $GITHUB_ENV
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+          echo "POOL_SIZE=10" >> $GITHUB_ENV
+
+      - name: Compile (prod)
+        run: MIX_ENV=prod mix compile
+
+      - name: Build release
+        run: MIX_ENV=prod mix release
+
+      - name: Upload release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: <your_app_name>-release
+          path: _build/prod/rel/
