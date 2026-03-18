@@ -12,13 +12,13 @@ Microsoft OAuth sign‑in can fail due to hard‑coded tenant and client_id sett
 
 ## Symptoms 
 
-AADSTS90023: “Specified tenant identifier ‘test’ is neither a valid DNS name, nor a valid external domain.”
+AADSTS90023: “Specified tenant identifier is neither a valid DNS name, nor a valid external domain.”
 
 AADSTS50011: Redirect URI mismatch after initial hard‑code fix.
 
 ERR_CONNECTION_REFUSED: Browser could not reach port 4001.
 
-HTTP 500 on callback due to controller expecting HTTPoison.Response and calling unimplemented user‑info paths.
+HTTP 500 on callback due to controller expecting HTTPoison. Response and calling unimplemented user‑info paths.
 
 
 ## Scenario
