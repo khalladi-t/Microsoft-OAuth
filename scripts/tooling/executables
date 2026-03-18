@@ -1,0 +1,2 @@
+chmod +x scripts/**/*.sh 2>/dev/null || true
+chmod +x scripts/*.sh 2>/dev/null || true
