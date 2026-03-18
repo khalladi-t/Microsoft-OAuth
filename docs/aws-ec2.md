@@ -19,3 +19,17 @@ Place TLS files on the instance:
 Copy `.env.sample` → `.env`, fill values, then:
 ```bash
 set -a; source .env; set +a
+
+# config/runtime.exs has:
+
+```bash
+config :<your_app>, <your_app>Web.Endpoint,
+  https: [
+    ip: {0, 0, 0, 0},
+    port: 4001, # or 443
+    cipher_suite: :strong,
+    certfile: "/etc/ssl/<your_app>/fullchain.pem",
+    keyfile: "/etc/ssl/<your_app>/privkey.pem"
+  ],
+  secret_key_base: System.fetch_env!("SECRET_KEY_BASE"),
+  server: true
